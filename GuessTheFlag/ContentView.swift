@@ -8,13 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var countries = ["Estonia","France","Germany","Ireland","Italy","Monaco","Nigeria","Poland","Spain","UK","Ukraine","US"].shuffled()
+    @State private var countries = ["Estonia","France","Germany","Ireland","Italy","Monaco","Nigeria","Poland","Spain","UK","Ukraine","US"]
     
     @State private var correctAnswer = Int.random(in: 0...2)
-    
-    @State private var showingScore = false
+    @State private var chosenAnswer = 0
+    @State private var showingAlert = false
     @State private var scoreTitle = ""
     @State private var score = 0
+    @State private var numberOfQuestions = 0
     
     var body: some View {
         ZStack{
@@ -53,14 +54,26 @@ struct ContentView: View {
                 Spacer()
             }
         }
-        .alert(scoreTitle, isPresented: $showingScore){
+        .alert(scoreTitle, isPresented: $showingAlert){
             Button("Continue", action: askQuestion)
         } message: {
-            Text("Your score is \(score) ")
+            if scoreTitle == "Correct"{
+                Text("Your score is \(score) ")
+            }
+            // else if numberOfQuestions == 8 {
+            //    Text("Your final score is \(score)")
+            //    Text("The game will restart once you press continue")
+            //    restartTheGame()
+            //}
+            else{
+                Text("Wrong! That was the flag of \(countries[chosenAnswer])")
+            }
+            
         }
     }
     
     func flagTapped(_ number : Int){
+        chosenAnswer = number
         if number == correctAnswer {
             scoreTitle = "Correct"
             score += 1
@@ -68,14 +81,19 @@ struct ContentView: View {
             scoreTitle = "Wrong"
             score -= 1
         }
-        
-        showingScore = true
+        numberOfQuestions += 1
+        showingAlert = true
     }
     
     func askQuestion(){
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
     }
+    
+    //func restartTheGame(){
+    //    score = 0
+    //   numberOfQuestions = 0
+    //}
     
     
 }
