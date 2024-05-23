@@ -7,6 +7,14 @@
 
 import SwiftUI
 
+struct FlagImage: View {
+    var image : String
+    var body: some View {
+        Image(image)
+            .shadow(radius: 5)
+    }
+}
+
 struct ContentView: View {
     @State private var countries = ["Estonia","France","Germany","Ireland","Italy","Monaco","Nigeria","Poland","Spain","UK","Ukraine","US"]
     
@@ -44,8 +52,7 @@ struct ContentView: View {
                     Button(){
                         flagTapped(number)
                     } label: {
-                        Image(countries[number])
-                            .shadow(radius: 5)
+                        FlagImage(image: countries[number])
                     }
                     
                 }
@@ -60,11 +67,6 @@ struct ContentView: View {
             if scoreTitle == "Correct"{
                 Text("Your score is \(score) ")
             }
-            // else if numberOfQuestions == 8 {
-            //    Text("Your final score is \(score)")
-            //    Text("The game will restart once you press continue")
-            //    restartTheGame()
-            //}
             else{
                 Text("Wrong! That was the flag of \(countries[chosenAnswer])")
             }
@@ -89,11 +91,6 @@ struct ContentView: View {
         countries.shuffle()
         correctAnswer = Int.random(in: 0...2)
     }
-    
-    //func restartTheGame(){
-    //    score = 0
-    //   numberOfQuestions = 0
-    //}
     
     
 }
