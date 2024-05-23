@@ -15,6 +15,19 @@ struct FlagImage: View {
     }
 }
 
+struct Title: ViewModifier{
+    func body(content: Content) -> some View {
+        content
+            .font(.largeTitle.bold())
+    }
+}
+
+extension View{
+    func largeSemiBoldTitle() -> some View{
+        modifier(Title())
+    }
+}
+
 struct ContentView: View {
     @State private var countries = ["Estonia","France","Germany","Ireland","Italy","Monaco","Nigeria","Poland","Spain","UK","Ukraine","US"]
     
@@ -44,7 +57,7 @@ struct ContentView: View {
                         .font(.subheadline.weight(.heavy))
                     
                     Text(countries[correctAnswer])
-                        .font(.largeTitle.weight(.semibold))
+                        .largeSemiBoldTitle()
                        
                 }
                 
